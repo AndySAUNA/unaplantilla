@@ -62,14 +62,23 @@ public class FlowController {
         FXMLLoader loader = loaders.get(name);
         if (loader == null) {
             synchronized (FlowController.class) {
+                loader = loaders.get(name);
                 if (loader == null) {
                     try {
-                        loader = new FXMLLoader(App.class.getResource("view/" + name + ".fxml"), this.idioma);
+                        String path = "/view/" + name + ".fxml";
+                        var resource = App.class.getResource(path);
+                        if (resource == null) {
+                            System.err.println("ERROR: Cannot find resource " + path);
+                            throw new NullPointerException("Resource not found: " + path);
+                        }
+                        System.out.println("Loading from: " + resource);
+                        loader = new FXMLLoader(resource, this.idioma);
                         loader.load();
                         loaders.put(name, loader);
                     } catch (Exception ex) {
-                        loader = null;
-                        java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE, "Creando loader [" + name + "].", ex);
+                        ex.printStackTrace();
+                        System.err.println("FAILED to load " + name + ": " + ex.getMessage());
+                        java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE, "Error loading [" + name + "]", ex);
                     }
                 }
             }
@@ -79,7 +88,7 @@ public class FlowController {
 
     public void goMain() {
         try {
-            this.mainStage.setScene(new Scene(FXMLLoader.load(App.class.getResource("view/PrincipalView.fxml"), this.idioma)));
+            this.mainStage.setScene(new Scene(FXMLLoader.load(App.class.getResource("/view/PrincipalView.fxml"), this.idioma)));
             MFXThemeManager.addOn(this.mainStage.getScene(), Themes.DEFAULT, Themes.LEGACY);
             this.mainStage.show();
         } catch (IOException ex) {
@@ -97,7 +106,15 @@ public class FlowController {
 
     public void goView(String viewName, String location, String accion) {
         FXMLLoader loader = getLoader(viewName);
+        if (loader == null) {
+            System.err.println("FATAL: Could not load view " + viewName);
+            return;
+        }
         Controller controller = loader.getController();
+        if (controller == null) {
+            System.err.println("FATAL: Controller not found in " + viewName);
+            return;
+        }
         //controller.setAccion(accion);
         controller.initialize();
         Stage stage = controller.getStage();
@@ -136,7 +153,15 @@ public class FlowController {
 
     public void goViewInStage(String viewName, Stage stage) {
         FXMLLoader loader = getLoader(viewName);
+        if (loader == null) {
+            System.err.println("FATAL: Could not load view " + viewName);
+            return;
+        }
         Controller controller = loader.getController();
+        if (controller == null) {
+            System.err.println("FATAL: Controller not found in " + viewName);
+            return;
+        }
         controller.setStage(stage);
         stage.getScene().setRoot(loader.getRoot());
         MFXThemeManager.addOn(stage.getScene(), Themes.DEFAULT, Themes.LEGACY);
@@ -145,10 +170,18 @@ public class FlowController {
 
     public void goViewInWindow(String viewName) {
         FXMLLoader loader = getLoader(viewName);
+        if (loader == null) {
+            System.err.println("FATAL: Could not load view " + viewName);
+            return;
+        }
         Controller controller = loader.getController();
+        if (controller == null) {
+            System.err.println("FATAL: Controller not found in " + viewName);
+            return;
+        }
         controller.initialize();
         Stage stage = new Stage();
-        stage.getIcons().add(new Image("cr/ac/una/unaplanilla/resources/LogoUNArojo.png"));
+        stage.getIcons().add(new Image("/resource/LogoUNArojo.png"));
         stage.setTitle(controller.getNombreVista());
         stage.setOnHidden((WindowEvent event) -> {
             controller.getStage().getScene().setRoot(new Pane());
@@ -165,10 +198,18 @@ public class FlowController {
 
     public void goViewInWindowModal(String viewName, Stage parentStage, Boolean resizable) {
         FXMLLoader loader = getLoader(viewName);
+        if (loader == null) {
+            System.err.println("FATAL: Could not load view " + viewName);
+            return;
+        }
         Controller controller = loader.getController();
+        if (controller == null) {
+            System.err.println("FATAL: Controller not found in " + viewName);
+            return;
+        }
         controller.initialize();
         Stage stage = new Stage();
-        stage.getIcons().add(new Image("cr/ac/una/unaplanilla/resources/LogoUNArojo.png"));
+        stage.getIcons().add(new Image("cr/ac/una/unaplanilla/resource/LogoUNArojo.png"));
         stage.setTitle(controller.getNombreVista());
         stage.setResizable(resizable);
         stage.setOnHidden((WindowEvent event) -> {

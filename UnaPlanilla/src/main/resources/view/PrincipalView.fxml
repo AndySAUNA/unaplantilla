@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.unaplanilla.controller.PrincipalController">
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <MFXButton maxWidth="1.7976931348623157E308" onAction="#onActionBtnEmplados" prefHeight="45.0" text="Empleados" VBox.vgrow="ALWAYS" />
-            <MFXButton layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onAction="#onActionBtnTiposPlanilla" prefHeight="45.0" text="Tipos Planilla" />
-         </children>
-      </VBox>
+      <BorderPane BorderPane.alignment="CENTER">
+         <bottom>
+            <MFXButton fx:id="btnCerrar" maxWidth="1.7976931348623157E308" onAction="#onActionBtnCerrar" prefHeight="45.0" text="Cerrar" BorderPane.alignment="CENTER" />
+         </bottom>
+         <top>
+            <ImageView fitHeight="109.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@../resource/LogoUNArojo.png" />
+               </image>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </ImageView>
+         </top>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MFXButton maxWidth="1.7976931348623157E308" onAction="#onActionBtnEmplados" prefHeight="45.0" text="Empleados" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </MFXButton>
+                  <MFXButton layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onAction="#onActionBtnTiposPlanilla" prefHeight="45.0" text="Tipos Planilla" />
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
    </left>
    <center>
       <VBox prefHeight="400.0" prefWidth="500.0" BorderPane.alignment="CENTER" />

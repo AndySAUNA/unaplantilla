@@ -21,8 +21,7 @@ public class EmpleadoDto {
     private StringProperty id;
     private StringProperty nombre;
     private StringProperty primerApellido;
-    private StringProperty segundoApellido;
-    private StringProperty Cedula;
+    private StringProperty segundoApellido;    private StringProperty Cedula;
     private ObjectProperty<String> genero;
     private StringProperty correo;
     private BooleanProperty administrador;
@@ -158,6 +157,60 @@ public class EmpleadoDto {
         this.activo.set(activo);
     }
 
+    public StringProperty getIdProperty() {
+        return id;
+    }
+
+    public StringProperty getNombreProperty() {
+        return nombre;
+    }
+
+    public StringProperty getPrimerApellidoProperty() {
+        return primerApellido;
+    }
+
+    public StringProperty getSegundoApellidoProperty() {
+        return segundoApellido;
+    }
+
+    public StringProperty getCedulaProperty() {
+        return Cedula;
+    }
+
+    public ObjectProperty<String> getGeneroProperty() {
+        return genero;
+    }
+
+    public StringProperty getCorreoProperty() {
+        return correo;
+    }
+
+    public BooleanProperty getAdministradorProperty() {
+        return administrador;
+    }
+
+    public StringProperty getUsuarioProperty() {
+        return usuario;
+    }
+
+    public StringProperty getClaveProperty() {
+        return clave;
+    }
+
+    public ObjectProperty<LocalDate> getFechaIngresoProperty() {
+        return fechaIngreso;
+    }
+
+    public ObjectProperty<LocalDate> getFechaSalidaProperty() {
+        return fechaSalida;
+    }
+
+    public BooleanProperty getActivoProperty() {
+        return activo;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

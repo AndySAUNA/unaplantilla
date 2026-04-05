@@ -4,6 +4,7 @@
  */
 package cr.ac.una.unaplanilla.controller;
 
+import cr.ac.una.unaplanilla.util.FlowController;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
  *
  * @author andys
  */
-public class LoginController implements Initializable {
+public class LoginController extends Controller implements Initializable {
 
     @FXML
     private AnchorPane root;
@@ -38,6 +39,11 @@ public class LoginController implements Initializable {
         imvFondo.fitHeightProperty().bind(root.heightProperty());
         imvFondo.fitWidthProperty().bind(root.widthProperty());
     }
+    
+     @Override
+    public void initialize() {
+
+    }
 
     @FXML
     private void onActionBtnCancelar(ActionEvent event) {
@@ -46,5 +52,8 @@ public class LoginController implements Initializable {
 
     @FXML
     private void onActionIngresar(ActionEvent event) {
+        FlowController.getInstance().goMain();
     }
+
+   
 }
