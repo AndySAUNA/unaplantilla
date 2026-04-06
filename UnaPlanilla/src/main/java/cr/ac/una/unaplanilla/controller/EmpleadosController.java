@@ -6,7 +6,9 @@ package cr.ac.una.unaplanilla.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * FXML Controller class
@@ -14,6 +16,9 @@ import javafx.fxml.Initializable;
  * @author andys
  */
 public class EmpleadosController extends Controller implements Initializable {
+
+    @FXML
+    private ToggleGroup Genero;
 
     /**
      * Initializes the controller class.
