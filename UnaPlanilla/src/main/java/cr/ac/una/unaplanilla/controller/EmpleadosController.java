@@ -96,10 +96,10 @@ public class EmpleadosController extends Controller implements Initializable {
         txtNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
         txtPApellido.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
         txtSApellido.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
-        txtCedula.delegateSetTextFormatter(Formato.getInstance().letrasFormat(40));
-        txtCorreo.delegateSetTextFormatter(Formato.getInstance().letrasFormat(80));
+        txtCedula.delegateSetTextFormatter(Formato.getInstance().cedulaFormat(40));
+        txtCorreo.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(80));
         txtClave.delegateSetTextFormatter(Formato.getInstance().letrasFormat(8));
-        txtUsuario.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
+        txtUsuario.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
         this.empleado = new EmpleadoDto();
         bindEmpleado();
         cargarValoresDefecto();
