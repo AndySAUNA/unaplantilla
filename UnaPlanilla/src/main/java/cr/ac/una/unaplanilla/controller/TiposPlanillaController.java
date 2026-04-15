@@ -4,15 +4,24 @@
  */
 package cr.ac.una.unaplanilla.controller;
 
+import cr.ac.una.unaplanilla.model.EmpleadoDto;
+import cr.ac.una.unaplanilla.util.Formato;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -36,14 +45,6 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @FXML
     private MFXButton btnGuardar;
     @FXML
-    private MFXButton btnEliminar1;
-    @FXML
-    private MFXButton btnNuevo1;
-    @FXML
-    private MFXButton btnBuscar1;
-    @FXML
-    private MFXButton btnGuardar1;
-    @FXML
     private MFXTextField txfCodigo;
     @FXML
     private MFXTextField txfDescripcion;
@@ -56,23 +57,48 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @FXML
     private MFXTextField txfIdEmpleado;
     @FXML
-    private MFXTextField txfNombre2;
-
+    private MFXButton btnEliminar2;
+    @FXML
+    private MFXButton btnNuevo2;
+    @FXML
+    private MFXButton btnBuscar2;
+    @FXML
+    private MFXButton btnGuardar2;
+    @FXML
+    private Accordion accorAccordion;
+    @FXML
+    private TitledPane panelTiposPlanilla;
+    @FXML
+    private TitledPane panelInclusionEmpleados;
+    
+    private EmpleadoDto empleado;
+    private ObjectProperty<EmpleadoDto> empleadoProperty = new SimpleObjectProperty<>();
+    private List<Node> requeridos = new ArrayList();
+    @FXML
+    private MFXTextField txfNombre;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+         accorAccordion.setExpandedPane(panelTiposPlanilla); // para inicializar el acordeon abierto
+         txfId.delegateSetTextFormatter(Formato.getInstance().integerFormat());
+         txfCodigo.delegateSetTextFormatter(Formato.getInstance().integerFormat());
+         txfPlanillasPM.delegateSetTextFormatter(Formato.getInstance().integerFormat());
+         txfIdEmpleado.delegateSetTextFormatter(Formato.getInstance().integerFormat());
+         txfNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
+         txfDescripcion.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
         // TODO
     }    
 
     @Override
     public void initialize() {
-                
     }
 
     @FXML
     private void onActionTxfId(ActionEvent event) {
+        
     }
 
     @FXML
@@ -104,15 +130,33 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     }
 
     @FXML
-    private void onActionActivo(ActionEvent event) {
-    }
-
-    @FXML
     private void onActionListViewEmpleados(MouseEvent event) {
     }
 
     @FXML
     private void onActionTxfIdEmpleado(ActionEvent event) {
+    }
+
+
+    @FXML
+    private void onActionBtnEliminar2(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionBtnNuevo2(ActionEvent event) {
+    }
+
+    @FXML
+    private void OnActionBtnBuscar2(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionBtnGuardar2(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionBtnActivo(ActionEvent event) {
+        
     }
 
     @FXML

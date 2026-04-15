@@ -18,9 +18,9 @@
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Accordion layoutX="162.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <Accordion fx:id="accorAccordion" layoutX="162.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
               <panes>
-                <TitledPane animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tipos Planilla">
+                <TitledPane fx:id="panelTiposPlanilla" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tipos Planilla">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -61,7 +61,7 @@
                                           </VBox>
                                           <VBox maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="289.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <MFXCheckbox fx:id="btnActivo" onAction="#onActionActivo" text="Activo" />
+                                                <MFXCheckbox fx:id="btnActivo" onAction="#onActionBtnActivo" text="Activo" />
                                                 <StackPane prefHeight="271.0" prefWidth="245.0" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets />
@@ -100,7 +100,7 @@
                         </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" text="Inclusion Empleados">
+                <TitledPane fx:id="panelInclusionEmpleados" animated="false" text="Inclusion Empleados">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -115,7 +115,7 @@
                                     <HBox alignment="CENTER" prefHeight="46.0" prefWidth="519.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
                                           <MFXTextField fx:id="txfIdEmpleado" floatingText="Id Empleado" onAction="#onActionTxfIdEmpleado" prefWidth="130.0" />
-                                          <MFXTextField fx:id="txfNombre2" floatingText="Nombre" layoutX="10.0" layoutY="10.0" onAction="#onActionTxfNombre2" prefWidth="250.0" />
+                                          <MFXTextField fx:id="txfNombre" floatingText="Nombre" layoutX="10.0" layoutY="10.0" onAction="#onActionTxfNombre2" prefWidth="250.0" />
                                           <MFXButton styleClass="jfx-btn-agregar" text=" ">
                                              <graphic>
                                                 <ImageView fitHeight="22.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
