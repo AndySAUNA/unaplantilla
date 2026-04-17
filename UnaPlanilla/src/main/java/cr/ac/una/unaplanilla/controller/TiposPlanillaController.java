@@ -6,14 +6,21 @@ package cr.ac.una.unaplanilla.controller;
 
 import cr.ac.una.unaplanilla.model.EmpleadoDto;
 import cr.ac.una.unaplanilla.util.Formato;
+import cr.ac.una.unaplanilla.util.Mensaje;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXListView;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -21,9 +28,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.KeyCode;
 
 /**
  * FXML Controller class
@@ -35,8 +45,6 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @FXML
     private AnchorPane root;
     @FXML
-    private MFXTextField txfId;
-    @FXML
     private MFXButton btnNuevo;
     @FXML
     private MFXButton btnBuscar;
@@ -45,17 +53,19 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @FXML
     private MFXButton btnGuardar;
     @FXML
-    private MFXTextField txfCodigo;
+    private MFXTextField txfId; // bindeado
     @FXML
-    private MFXTextField txfDescripcion;
+    private MFXTextField txfCodigo;// falta bindear
     @FXML
-    private MFXTextField txfPlanillasPM;
+    private MFXTextField txfDescripcion;// falta bindear
     @FXML
-    private MFXCheckbox btnActivo;
+    private MFXTextField txfPlanillasPM;// falta bindear
     @FXML
-    private MFXListView<?> listViewEmplados;
+    private MFXCheckbox chkActivo;// bindeado
     @FXML
-    private MFXTextField txfIdEmpleado;
+    private MFXTextField txfIdEmpleado;// bindeado
+    @FXML
+    private MFXTextField txfNombre; // bindeado
     @FXML
     private MFXButton btnEliminar2;
     @FXML
@@ -70,12 +80,14 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     private TitledPane panelTiposPlanilla;
     @FXML
     private TitledPane panelInclusionEmpleados;
+    @FXML
+    private MFXListView<?> listViewEmplados;
+    
     
     private EmpleadoDto empleado;
     private ObjectProperty<EmpleadoDto> empleadoProperty = new SimpleObjectProperty<>();
     private List<Node> requeridos = new ArrayList();
-    @FXML
-    private MFXTextField txfNombre;
+    
     
     /**
      * Initializes the controller class.
@@ -87,15 +99,107 @@ public class TiposPlanillaController  extends Controller implements Initializabl
          txfCodigo.delegateSetTextFormatter(Formato.getInstance().integerFormat());
          txfPlanillasPM.delegateSetTextFormatter(Formato.getInstance().integerFormat());
          txfIdEmpleado.delegateSetTextFormatter(Formato.getInstance().integerFormat());
-         txfNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
-         txfDescripcion.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
+         txfNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
+         txfDescripcion.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
+         
+         empleado = new EmpleadoDto();
+         bindEmpleado();
+         cargarValoresDefecto();
         // TODO
     }    
 
     @Override
     public void initialize() {
     }
-
+    private void bindEmpleado(){
+        try{
+            //listener con valor observable (objeto como tal), valor viejo y valor nuevo
+            empleadoProperty.addListener((ov, oldVal, newVal) -> {
+                if(oldVal != null){
+                    txfId.textProperty().unbind();
+                    txfNombre.textProperty().unbindBidirectional(oldVal.getNombreProperty());
+                    txfDescripcion.textProperty().unbindBidirectional(oldVal.getNombreProperty());
+                    chkActivo.selectedProperty().unbindBidirectional(oldVal.getAdministradorProperty());
+                    txfIdEmpleado.textProperty().unbindBidirectional(oldVal.getIdProperty());
+                    //falta el bindeo de descripcion, planillsaPM y codigo
+                }
+                if(newVal != null){
+                    if(newVal.getIdProperty().get() != null && !newVal.getIdProperty().get().isBlank()){ //bindeo unidireccional
+                        txfId.textProperty().bind(newVal.getIdProperty());
+                    }
+                    txfNombre.textProperty().bindBidirectional(newVal.getNombreProperty());
+                    txfDescripcion.textProperty().bindBidirectional(newVal.getNombreProperty());
+                    chkActivo.selectedProperty().bindBidirectional(newVal.getAdministradorProperty());
+                    txfIdEmpleado.textProperty().bindBidirectional(newVal.getIdProperty());
+                }
+            });
+        }catch (Exception e){
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Error al realizar el bindeo",
+            getStage(), "Ocurrio un error al realizar el bindeo.");
+        }
+    }
+    private void cargarValoresDefecto(){
+        validarActivo();
+        txfId.clear();
+        txfId.requestFocus();
+    }
+    private void validarActivo(){
+        if(chkActivo.isSelected()){
+            this.requeridos.addAll(Arrays.asList(txfPlanillasPM));
+            txfPlanillasPM.setDisable(false);
+        }else{
+            this.requeridos.removeAll(Arrays.asList(txfPlanillasPM));
+            txfPlanillasPM.clear();
+            txfPlanillasPM.setDisable(true);
+        }
+    }
+    
+    private void indicarRequeridos(){
+        this.requeridos.clear();
+        this.requeridos.addAll(Arrays.asList(txfId,txfCodigo,txfDescripcion,txfPlanillasPM));//descripcion y planillasPM no han sido bindeadas
+    }
+    
+    public String validarRequeridos() {
+        Boolean validos = true;
+        String invalidos = "";
+        for (Node node : requeridos) {
+            if (node instanceof MFXTextField && (((MFXTextField) node).getText() == null || ((MFXTextField) node).getText().isBlank())) {
+                if (validos) {
+                    invalidos += ((MFXTextField) node).getFloatingText();
+                } else {
+                    invalidos += "," + ((MFXTextField) node).getFloatingText();
+                }
+                validos = false;
+            } else if (node instanceof MFXPasswordField && (((MFXPasswordField) node).getText() == null || ((MFXPasswordField) node).getText().isBlank())) {
+                if (validos) {
+                    invalidos += ((MFXPasswordField) node).getFloatingText();
+                } else {
+                    invalidos += "," + ((MFXPasswordField) node).getFloatingText();
+                }
+                validos = false;
+            } else if (node instanceof MFXDatePicker && ((MFXDatePicker) node).getValue() == null) {
+                if (validos) {
+                    invalidos += ((MFXDatePicker) node).getFloatingText();
+                } else {
+                    invalidos += "," + ((MFXDatePicker) node).getFloatingText();
+                }
+                validos = false;
+            } else if (node instanceof MFXComboBox && ((MFXComboBox) node).getSelectionModel().getSelectedIndex() < 0) {
+                if (validos) {
+                    invalidos += ((MFXComboBox) node).getFloatingText();
+                } else {
+                    invalidos += "," + ((MFXComboBox) node).getFloatingText();
+                }
+                validos = false;
+            }
+        }
+        if (validos) {
+            return "";
+        } else {
+            return "Campos requeridos o con problemas de formato [" + invalidos + "].";
+        }
+    }
+    
     @FXML
     private void onActionTxfId(ActionEvent event) {
         
@@ -103,6 +207,10 @@ public class TiposPlanillaController  extends Controller implements Initializabl
 
     @FXML
     private void onActionBtnNuevo(ActionEvent event) {
+        if(new Mensaje().showConfirmation("Limpiar Empleado", getStage(),
+        "Esta seguro que desea limpiar el registro?")){
+            cargarValoresDefecto();
+        }
     }
 
     @FXML
@@ -154,13 +262,36 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     private void onActionBtnGuardar2(ActionEvent event) {
     }
 
-    @FXML
-    private void onActionBtnActivo(ActionEvent event) {
-        
-    }
 
     @FXML
     private void onActionTxfNombre2(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionChkActivo(ActionEvent event) {
+        validarActivo();
+    }
+    private void cargarEmpleado(Long id){
+        try{
+            
+        }catch(Exception ex){
+            Logger.getLogger(EmpleadosController.class.getName()).log(Level.SEVERE, "Error consultando el empleado",ex);
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Consultar Empleado;", getStage(), "Ocurrio un error consultando el empleado.");
+        }
+    }
+
+    @FXML
+    private void onKeyPressedtxtId(KeyEvent event) {
+        if(event.getCode() == KeyCode.ENTER && !txfId.getText().isBlank()){
+            cargarEmpleado(Long.valueOf(txfId.getText()));
+        }
+    }
+
+    @FXML
+    private void onKeyPressedtxtId2(KeyEvent event) {
+        if(event.getCode() == KeyCode.ENTER && !txfId.getText().isBlank()){
+            cargarEmpleado(Long.valueOf(txfId.getText()));
+        }
     }
     
 }

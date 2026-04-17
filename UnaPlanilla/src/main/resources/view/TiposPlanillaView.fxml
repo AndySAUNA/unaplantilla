@@ -30,7 +30,7 @@
                                        <children>
                                           <VBox maxWidth="1.7976931348623157E308" prefHeight="271.0" prefWidth="271.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <MFXTextField fx:id="txfId" floatingText="Id" onAction="#onActionTxfId" prefWidth="200.0" />
+                                                <MFXTextField fx:id="txfId" floatingText="Id" onAction="#onActionTxfId" onKeyPressed="#onKeyPressedtxtId" prefWidth="200.0" />
                                                 <MFXTextField fx:id="txfCodigo" floatingText="Codigo" layoutX="10.0" layoutY="10.0" onAction="#onActionTxfCodigo" prefWidth="200.0" />
                                                 <MFXTextField fx:id="txfDescripcion" floatingText="Descripcion" layoutX="10.0" layoutY="50.0" onAction="#onActionTxfDescripcion" prefWidth="200.0" />
                                                 <MFXTextField fx:id="txfPlanillasPM" floatingText="Planillas por mes" layoutX="10.0" layoutY="90.0" onAction="#onActionTxfPlanillasPM" prefWidth="200.0" />
@@ -61,7 +61,7 @@
                                           </VBox>
                                           <VBox maxWidth="1.7976931348623157E308" prefHeight="297.0" prefWidth="289.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <MFXCheckbox fx:id="btnActivo" onAction="#onActionBtnActivo" text="Activo" />
+                                                <MFXCheckbox fx:id="chkActivo" onAction="#onActionChkActivo" text="Activo" />
                                                 <StackPane prefHeight="271.0" prefWidth="245.0" VBox.vgrow="ALWAYS">
                                                    <VBox.margin>
                                                       <Insets />
@@ -114,7 +114,7 @@
                                     </MFXListView>
                                     <HBox alignment="CENTER" prefHeight="46.0" prefWidth="519.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <MFXTextField fx:id="txfIdEmpleado" floatingText="Id Empleado" onAction="#onActionTxfIdEmpleado" prefWidth="130.0" />
+                                          <MFXTextField fx:id="txfIdEmpleado" floatingText="Id Empleado" onAction="#onActionTxfIdEmpleado" onKeyPressed="#onKeyPressedtxtId2" prefWidth="130.0" />
                                           <MFXTextField fx:id="txfNombre" floatingText="Nombre" layoutX="10.0" layoutY="10.0" onAction="#onActionTxfNombre2" prefWidth="250.0" />
                                           <MFXButton styleClass="jfx-btn-agregar" text=" ">
                                              <graphic>

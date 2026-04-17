@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import java.time.LocalDate;
 
 /**
  * FXML Controller class
@@ -96,10 +97,12 @@ public class EmpleadosController extends Controller implements Initializable {
         txtNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
         txtPApellido.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
         txtSApellido.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
-        txtCedula.delegateSetTextFormatter(Formato.getInstance().letrasFormat(40));
-        txtCorreo.delegateSetTextFormatter(Formato.getInstance().letrasFormat(80));
+        txtCedula.delegateSetTextFormatter(Formato.getInstance().cedulaFormat(40));
+        txtCorreo.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(80));
         txtClave.delegateSetTextFormatter(Formato.getInstance().letrasFormat(8));
         txtUsuario.delegateSetTextFormatter(Formato.getInstance().letrasFormat(15));
+        dtpFIngreso.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
+        dtpFSalida.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
         this.empleado = new EmpleadoDto();
         bindEmpleado();
         cargarValoresDefecto();
@@ -125,8 +128,8 @@ public class EmpleadosController extends Controller implements Initializable {
                 txtCorreo.textProperty().unbindBidirectional(oldVal.getCorreoProperty());
                 txtUsuario.textProperty().unbindBidirectional(oldVal.getUsuarioProperty());
                 txtClave.textProperty().unbindBidirectional(oldVal.getClaveProperty());
-                dtpFIngreso.textProperty().unbindBidirectional(oldVal.getFechaIngresoProperty());
-                dtpFSalida.textProperty().unbindBidirectional(oldVal.getFechaSalidaProperty());
+                //dtpFIngreso.textProperty().unbindBidirectional(oldVal.getFechaIngresoProperty());
+                //dtpFSalida.textProperty().unbindBidirectional(oldVal.getFechaSalidaProperty());
                 chkActivo.selectedProperty().unbindBidirectional(oldVal.getActivoProperty());
                 BindingUtils.unbindToggleGroupToProperty(tggGenero, oldVal.getGeneroProperty());
             }
@@ -134,18 +137,17 @@ public class EmpleadosController extends Controller implements Initializable {
                 if(newVal.getIdProperty().get() != null && !newVal.getIdProperty().get().isBlank()){
                     txtId.textProperty().bind(newVal.getIdProperty());
             }
-                txtId.textProperty().unbind();
-                txtNombre.textProperty().unbindBidirectional(newVal.getNombreProperty());
-                txtPApellido.textProperty().unbindBidirectional(newVal.getPrimerApellidoProperty());
-                txtSApellido.textProperty().unbindBidirectional(newVal.getSegundoApellidoProperty());
-                txtCedula.textProperty().unbindBidirectional(newVal.getCedulaProperty());
-                chkAdministrador.selectedProperty().unbindBidirectional(newVal.getAdministradorProperty());
-                txtCorreo.textProperty().unbindBidirectional(newVal.getCorreoProperty());
-                txtUsuario.textProperty().unbindBidirectional(newVal.getUsuarioProperty());
-                txtClave.textProperty().unbindBidirectional(newVal.getClaveProperty());
-                dtpFIngreso.textProperty().unbindBidirectional(newVal.getFechaIngresoProperty());
-                dtpFSalida.textProperty().unbindBidirectional(newVal.getFechaSalidaProperty());
-                chkActivo.selectedProperty().unbindBidirectional(newVal.getActivoProperty());
+                txtNombre.textProperty().bindBidirectional(newVal.getNombreProperty());
+                txtPApellido.textProperty().bindBidirectional(newVal.getPrimerApellidoProperty());
+                txtSApellido.textProperty().bindBidirectional(newVal.getSegundoApellidoProperty());
+                txtCedula.textProperty().bindBidirectional(newVal.getCedulaProperty());
+                chkAdministrador.selectedProperty().bindBidirectional(newVal.getAdministradorProperty());
+                txtCorreo.textProperty().bindBidirectional(newVal.getCorreoProperty());
+                txtUsuario.textProperty().bindBidirectional(newVal.getUsuarioProperty());
+                txtClave.textProperty().bindBidirectional(newVal.getClaveProperty());
+                //dtpFIngreso.textProperty().bindBidirectional(newVal.getFechaIngresoProperty());
+                //dtpFSalida.textProperty().bindBidirectional(newVal.getFechaSalidaProperty());
+                chkActivo.selectedProperty().bindBidirectional(newVal.getActivoProperty());
                 //
                 BindingUtils.unbindToggleGroupToProperty(tggGenero, newVal.getGeneroProperty());
             } 
@@ -234,7 +236,8 @@ public class EmpleadosController extends Controller implements Initializable {
     @FXML
     private void onActionBtnNuevo(ActionEvent event) {
         if (new Mensaje().showConfirmation("Limpiar Empleado", getStage(), 
-            "esta seguro que desea limpiar el registro?")){
+            "Esta seguro que desea limpiar el registro?")){
+            cargarValoresDefecto();
         }
     }
 

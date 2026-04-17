@@ -18,7 +18,8 @@ public class EmpleadoDto {
     private StringProperty id;
     private StringProperty nombre;
     private StringProperty primerApellido;
-    private StringProperty segundoApellido;    private StringProperty Cedula;
+    private StringProperty segundoApellido;    
+    private StringProperty Cedula;
     private ObjectProperty<String> genero;
     private StringProperty correo;
     private BooleanProperty administrador;
@@ -45,9 +46,9 @@ public class EmpleadoDto {
         this.fechaIngreso = new SimpleObjectProperty(LocalDate.now());
         this.fechaSalida = new SimpleObjectProperty(LocalDate.now());
         this.activo = new SimpleBooleanProperty(true);
-        /**
-        * Eliminar
-        */
+        
+        // Eliminar
+        
         this.nombre.set("Andy");
     }
     
