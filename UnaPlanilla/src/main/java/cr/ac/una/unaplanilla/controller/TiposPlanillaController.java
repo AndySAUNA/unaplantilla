@@ -4,8 +4,11 @@
  */
 package cr.ac.una.unaplanilla.controller;
 
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -14,6 +17,11 @@ import javafx.fxml.Initializable;
  * @author andys
  */
 public class TiposPlanillaController  extends Controller implements Initializable {
+
+    @FXML
+    private MFXTextField ixfId;
+    @FXML
+    private MFXTextField txfCodigo;
 
     /**
      * Initializes the controller class.
@@ -26,6 +34,10 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @Override
     public void initialize() {
                 
+    }
+
+    @FXML
+    private void onActionTxfId(ActionEvent event) {
     }
     
 }
