@@ -13,16 +13,22 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXListView;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,7 +40,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.KeyCode;
-
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 /**
  * FXML Controller class
  *
@@ -81,12 +89,14 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @FXML
     private TitledPane panelInclusionEmpleados;
     @FXML
-    private MFXListView<?> listViewEmplados;
+    private MFXTableView<EmpleadoDto> tableVIewEmpleado;
+    private final ObservableList<EmpleadoDto> tablillaEmpleados = FXCollections.observableArrayList();
     
     
     private EmpleadoDto empleado;
     private ObjectProperty<EmpleadoDto> empleadoProperty = new SimpleObjectProperty<>();
     private List<Node> requeridos = new ArrayList();
+    
     
     
     /**
@@ -102,6 +112,8 @@ public class TiposPlanillaController  extends Controller implements Initializabl
          txfNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
          txfDescripcion.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
          
+         setupListViewEmplados();
+         
          empleado = new EmpleadoDto();
          bindEmpleado();
          cargarValoresDefecto();
@@ -111,6 +123,21 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     @Override
     public void initialize() {
     }
+    
+    public void setupListViewEmplados(){
+        //
+        MFXTableColumn<EmpleadoDto> columnaId = new MFXTableColumn<>("Id",true, Comparator.comparing(EmpleadoDto::getCedula));
+        MFXTableColumn<EmpleadoDto> columnaNombre = new MFXTableColumn<>("Nombre",true, Comparator.comparing(EmpleadoDto::getNombre));
+        MFXTableColumn<EmpleadoDto> columnaEliminar = new MFXTableColumn<>("Eliminar",true, Comparator.comparing(EmpleadoDto::getId));
+        //
+        columnaId.setRowCellFactory(c -> new MFXTableRowCell<>(EmpleadoDto::getCedula));
+        columnaNombre.setRowCellFactory(c -> new MFXTableRowCell<>(EmpleadoDto::getNombre));
+        columnaEliminar.setRowCellFactory(c -> new MFXTableRowCell<>(EmpleadoDto::getNombre));
+        //
+        tableVIewEmpleado.getTableColumns().setAll(columnaId, columnaNombre, columnaEliminar);
+        tableVIewEmpleado.setItems(tablillaEmpleados);
+    }
+    
     private void bindEmpleado(){
         try{
             //listener con valor observable (objeto como tal), valor viejo y valor nuevo
@@ -237,9 +264,6 @@ public class TiposPlanillaController  extends Controller implements Initializabl
     private void onActionTxfPlanillasPM(ActionEvent event) {
     }
 
-    @FXML
-    private void onActionListViewEmpleados(MouseEvent event) {
-    }
 
     @FXML
     private void onActionTxfIdEmpleado(ActionEvent event) {
