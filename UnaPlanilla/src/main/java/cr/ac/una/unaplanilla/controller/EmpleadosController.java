@@ -72,12 +72,7 @@ public class EmpleadosController extends Controller implements Initializable {
     private MFXDatePicker dtpFIngreso;
     @FXML
     private MFXDatePicker dtpFSalida;
-    
-    private EmpleadoDto empleado;
-    private ObjectProperty<EmpleadoDto> empleadoProperty = 
-            new SimpleObjectProperty<>();
-    private List<Node> requeridos = new ArrayList();
-    @FXML
+     @FXML
     private MFXButton btnNuevo;
     @FXML
     private MFXButton btnBuscar;
@@ -85,6 +80,11 @@ public class EmpleadosController extends Controller implements Initializable {
     private MFXButton btnEliminar;
     @FXML
     private MFXButton btnGuardar;
+    
+    private EmpleadoDto empleado;
+    private ObjectProperty<EmpleadoDto> empleadoProperty = new SimpleObjectProperty<>();
+    private List<Node> requeridos = new ArrayList();
+   
 
     /**
      * Initializes the controller class.

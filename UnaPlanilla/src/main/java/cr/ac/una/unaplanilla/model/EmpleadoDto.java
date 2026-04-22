@@ -15,7 +15,7 @@ import javafx.beans.property.StringProperty;
 
 
 public class EmpleadoDto {
-    private StringProperty id;
+    StringProperty id;
     private StringProperty nombre;
     private StringProperty primerApellido;
     private StringProperty segundoApellido;    
@@ -46,10 +46,6 @@ public class EmpleadoDto {
         this.fechaIngreso = new SimpleObjectProperty(LocalDate.now());
         this.fechaSalida = new SimpleObjectProperty(LocalDate.now());
         this.activo = new SimpleBooleanProperty(true);
-        
-        // Eliminar
-        
-        this.nombre.set("Andy");
     }
     
       public Long getId() {
@@ -159,7 +155,7 @@ public class EmpleadoDto {
     public void setActivo(Boolean activo) {
         this.activo.set(activo);
     }
-
+//-----------------------------------------------------------------------------------------------------------------------------------
     public StringProperty getIdProperty() {
         return id;
     }
@@ -211,7 +207,7 @@ public class EmpleadoDto {
     public BooleanProperty getActivoProperty() {
         return activo;
     }
-    
+//-----------------------------------------------------------------------------------------------------------------------------------
     
     
     @Override

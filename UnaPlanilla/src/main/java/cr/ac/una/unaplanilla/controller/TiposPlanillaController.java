@@ -111,12 +111,15 @@ public class TiposPlanillaController  extends Controller implements Initializabl
          txfIdEmpleado.delegateSetTextFormatter(Formato.getInstance().integerFormat());
          txfNombre.delegateSetTextFormatter(Formato.getInstance().letrasFormat(30));
          txfDescripcion.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
+         txfDescripcion.delegateSetTextFormatter(Formato.getInstance().maxLengthFormat(15));
+         txfPlanillasPM.delegateSetTextFormatter(Formato.getInstance().integerFormat());
          
          setupListViewEmplados();
          
          empleado = new EmpleadoDto();
          bindEmpleado();
          cargarValoresDefecto();
+         indicarRequeridos();
         // TODO
     }    
 
