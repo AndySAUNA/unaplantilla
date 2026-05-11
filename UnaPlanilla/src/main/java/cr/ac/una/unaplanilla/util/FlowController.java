@@ -28,7 +28,7 @@ public class FlowController {
     private static Stage mainStage;
     private static ResourceBundle idioma;
     private static HashMap<String, FXMLLoader> loaders = new HashMap<>();
-    private static final Image imageIcon = new Image("resource/LogoUNArojo.png");;
+    private static final Image imageIcon = new Image("resource/LogoUNArojo.png");
 
     private FlowController() {
     }

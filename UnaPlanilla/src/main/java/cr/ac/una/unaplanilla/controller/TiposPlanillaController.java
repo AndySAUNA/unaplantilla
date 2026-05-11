@@ -172,6 +172,14 @@ public class TiposPlanillaController  extends Controller implements Initializabl
         validarActivo();
         txfId.clear();
         txfId.requestFocus();
+        txfCodigo.clear();
+        txfCodigo.requestFocus();
+        txfDescripcion.clear();
+        txfDescripcion.requestFocus();
+        txfIdEmpleado.clear();
+        txfIdEmpleado.requestFocus();
+        txfNombre.clear();
+        txfNombre.requestFocus();
     }
     private void validarActivo(){
         if(chkActivo.isSelected()){
@@ -249,6 +257,10 @@ public class TiposPlanillaController  extends Controller implements Initializabl
 
     @FXML
     private void onActionBtnEliminar(ActionEvent event) {
+        if(new Mensaje().showConfirmation("Limpiar", getStage(),
+        "Esta seguro que desea Limpiar el formulario?")){
+            cargarValoresDefecto();
+        }
     }
 
     @FXML
@@ -275,6 +287,10 @@ public class TiposPlanillaController  extends Controller implements Initializabl
 
     @FXML
     private void onActionBtnEliminar2(ActionEvent event) {
+        if(new Mensaje().showConfirmation("Limpiar", getStage(),
+        "Esta seguro que desea Limpiar el formulario?")){
+            cargarValoresDefecto();
+        }
     }
 
     @FXML
