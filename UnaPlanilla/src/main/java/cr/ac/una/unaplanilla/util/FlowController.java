@@ -18,7 +18,9 @@ import javafx.stage.WindowEvent;
 import cr.ac.una.unaplanilla.controller.Controller;
 import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
 import io.github.palexdev.materialfx.css.themes.Themes;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class FlowController {
 
@@ -26,6 +28,7 @@ public class FlowController {
     private static Stage mainStage;
     private static ResourceBundle idioma;
     private static HashMap<String, FXMLLoader> loaders = new HashMap<>();
+    private static final Image imageIcon = new Image("resource/LogoUNArojo.png");
 
     private FlowController() {
     }
@@ -90,6 +93,9 @@ public class FlowController {
         try {
             this.mainStage.setScene(new Scene(FXMLLoader.load(App.class.getResource("/view/PrincipalView.fxml"), this.idioma)));
             MFXThemeManager.addOn(this.mainStage.getScene(), Themes.DEFAULT, Themes.LEGACY);
+            if (!imageIcon.isError()){
+                this.mainStage.getIcons().setAll(imageIcon);
+            }
             this.mainStage.show();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE, "Error inicializando la vista base.", ex);
@@ -127,8 +133,11 @@ public class FlowController {
                 
                 BorderPane borderPane = (BorderPane) stage.getScene().getRoot();
                 VBox vBox = (VBox)borderPane.getCenter();
+                
+                Parent root = loader.getRoot();
                 vBox.getChildren().clear();
-                vBox.getChildren().add(loader.getRoot());
+                vBox.getChildren().add(root);
+                VBox.setVgrow(root, Priority.ALWAYS);
                         
                 /*VBox vBox = ((VBox) ((BorderPane) stage.getScene().getRoot()).getCenter());
                 vBox.getChildren().clear();
@@ -181,7 +190,7 @@ public class FlowController {
         }
         controller.initialize();
         Stage stage = new Stage();
-        stage.getIcons().add(new Image("resource/LogoUNArojo.png"));
+        stage.getIcons().add(imageIcon);
         stage.setTitle(controller.getNombreVista());
         stage.setOnHidden((WindowEvent event) -> {
             controller.getStage().getScene().setRoot(new Pane());
@@ -209,7 +218,7 @@ public class FlowController {
         }
         controller.initialize();
         Stage stage = new Stage();
-        stage.getIcons().add(new Image("cr/ac/una/unaplanilla/resource/LogoUNArojo.png"));
+        stage.getIcons().add(imageIcon);
         stage.setTitle(controller.getNombreVista());
         stage.setResizable(resizable);
         stage.setOnHidden((WindowEvent event) -> {

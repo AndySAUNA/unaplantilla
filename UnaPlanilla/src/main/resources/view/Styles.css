@@ -8,6 +8,7 @@
     -fx-base-color-id: #00c853;
     -mfx-main: #09b6bc;
     -mfx-purple: #09b6bc;
+    -fx-base-color-guardar: #33ff33;
 }
 
 .mfx-text-field, .mfx-password-field{
@@ -111,7 +112,7 @@
 }
 
 .jfx-btn-eliminar, .jfx-btn-eliminar:armed, .jfx-btn-eliminar:focused{
-    -fx-background-color: #2196f3;
+    -fx-background-color: #ff3333;
     
 }
 
@@ -120,12 +121,20 @@
 }
 
 .jfx-btn-guardar, .jfx-btn-guardar:armed, .jfx-btn-guardar:focused{
-    -fx-background-color: #2196f3;
-    
+    -fx-background-color: -fx-base-color-guardar;
+    -fx-padding-right: 0 10 0 0;
 }
 
 .jfx-btn-guardar > ImageView{
     -fx-image: url(../resource/Guardar-48.png);
+}
+.jfx-btn-agregar, .jfx-btn-agregar:armed, .jfx-btn-agregar:focused{
+    -fx-background-color: #66ff66;
+    -fx-padding-right: 0 10 0 0;
+}
+
+.jfx-btn-agregar > ImageView{
+    -fx-image: url(../resource/Agregar-48.png);
 }
   
 /**********************************************************************************************************************
