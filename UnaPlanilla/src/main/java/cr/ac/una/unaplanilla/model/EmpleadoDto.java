@@ -5,6 +5,7 @@
 package cr.ac.una.unaplanilla.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -28,7 +29,7 @@ public class EmpleadoDto {
     private ObjectProperty<LocalDate> fechaIngreso;
     private ObjectProperty<LocalDate> fechaSalida;
     private BooleanProperty activo;
-
+    private Long version;
     
     
 
@@ -46,6 +47,40 @@ public class EmpleadoDto {
         this.fechaIngreso = new SimpleObjectProperty(LocalDate.now());
         this.fechaSalida = new SimpleObjectProperty(LocalDate.now());
         this.activo = new SimpleBooleanProperty(true);
+        this.version = version;
+        
+    }
+    public EmpleadoDto(Empleado empleado) {
+        this();
+        this.id.set(empleado.getId().toString());
+        this.nombre.set(empleado.getNombre());
+        this.primerApellido.set(empleado.getApellido());
+        this.segundoApellido.set(empleado.getSegundoApellido());
+        this.Cedula.set(empleado.getCedula());
+        this.genero.set(empleado.getGenero());
+        this.correo.set(empleado.getCorreo());
+        this.administrador.set(empleado.getAdministrador().equals("S"));
+        this.usuario.set(empleado.getUsuario());
+        this.clave.set(empleado.getClave());
+        this.fechaIngreso.set(empleado.getFechaIngreso());
+        this.fechaSalida.set(empleado.getFechaSalida());
+        this.activo.set(empleado.getEstado().equals("A"));
+        this.version = empleado.getVersion();
+        
+    }
+    public EmpleadoDto(Long version) {
+        this.version = version;
+    }
+
+    public Long isVersion() {
+        return version;
+    }
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
     
       public Long getId() {

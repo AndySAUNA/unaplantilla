@@ -5,9 +5,11 @@
 package cr.ac.una.unaplanilla.controller;
 
 import cr.ac.una.unaplanilla.model.EmpleadoDto;
+import cr.ac.una.unaplanilla.service.EmpleadoService;
 import cr.ac.una.unaplanilla.util.BindingUtils;
 import cr.ac.una.unaplanilla.util.Formato;
 import cr.ac.una.unaplanilla.util.Mensaje;
+import cr.ac.una.unaplanilla.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -242,10 +244,21 @@ public class EmpleadosController extends Controller implements Initializable {
         try{
             String invalidos = validarRequeridos();
             if(invalidos.isBlank()){
-                new Mensaje().showModal(Alert.AlertType.WARNING, "Guardar Empleado"
-                , getStage(), invalidos);
+                new Mensaje().showModal(Alert.AlertType.WARNING, "Guardar Empleado", getStage(), invalidos);
             }else{
+                EmpleadoService empleadoService = new EmpleadoService();
+                Respuesta respuesta = empleadoService.guardarEmpleado(this.empleado);
+                if(respuesta.getEstado()){
+                this.empleado = (EmpleadoDto) respuesta.getResultado("Empleado");
+                this.empleadoProperty.set(this.empleado);
+                validarAdministrador();
+                validarRequeridos();
+            }else{
+                new Mensaje().showModal(Alert.AlertType.ERROR,"Buscar Empleado", getStage(),respuesta.getMensajeInterno());
+            }
                 
+                
+                new Mensaje().showModal(Alert.AlertType.WARNING, "Guardar Empleado", getStage(), "el empleado ha sido guardado exitosamente!");
             }
         }catch(Exception ex){
             Logger.getLogger(EmpleadosController.class.getName()).
@@ -277,11 +290,16 @@ public class EmpleadosController extends Controller implements Initializable {
     private void onActionBtnEliminar(ActionEvent event) {
         try{
             if(this.empleado.getId() == null){
-                new Mensaje().showModal(Alert.AlertType.WARNING, "Eliminar Empleado"
-                , getStage(), "Favor consultar el empleado a eliminar.");
+                new Mensaje().showModal(Alert.AlertType.WARNING, "Eliminar Empleado", getStage(), "Favor consultar el empleado a eliminar.");
             }else{
-                new Mensaje().showModal(Alert.AlertType.INFORMATION, "Eliminar Empleado"
-                , getStage(), "El empleado se elimino correctamente.");
+                EmpleadoService empleadoService = new EmpleadoService();
+                Respuesta respuesta = empleadoService.eliminarEmpleado(this.empleado.getId());
+                if(respuesta.getEstado()){
+                cargarValoresDefecto();
+                 new Mensaje().showModal(Alert.AlertType.INFORMATION, "Eliminar Empleado", getStage(), "El empleado se elimino correctamente.");
+                }else{
+                    new Mensaje().showModal(Alert.AlertType.ERROR, "Eliminar Empleado", getStage(), respuesta.getMensaje());
+                }
             }
         }catch(Exception ex){
             Logger.getLogger(EmpleadosController.class.getName()).
@@ -292,7 +310,16 @@ public class EmpleadosController extends Controller implements Initializable {
     }
     private void cargarEmpleado(Long id){
         try{
-            
+            EmpleadoService empleadoService = new EmpleadoService();
+            Respuesta respuesta = empleadoService.getEmpleado(id);
+            if(respuesta.getEstado()){
+                this.empleado = (EmpleadoDto) respuesta.getResultado("Empleado");
+                this.empleadoProperty.set(this.empleado);
+                validarAdministrador();
+                validarRequeridos();
+            }else{
+                new Mensaje().showModal(Alert.AlertType.ERROR,"Buscar Empleado", getStage(),respuesta.getMensajeInterno());
+            }
         }catch(Exception ex){
             Logger.getLogger(EmpleadosController.class.getName()).
                     log(Level.SEVERE,"Error consultando el empleado.",ex);
